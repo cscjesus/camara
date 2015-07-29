@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link href="css/jquery.mobile-1.4.5.css" rel="stylesheet" />
@@ -14,15 +14,36 @@
 		text-align:center;
 	}
 </style>
+    <script type="text/javascript">
+        document.addEventListener("deviceready",
+        function(){
+            $("#btnTomarFoto").tap(function () {
+                //alert("ejecución correcta");
+                navigator.device.capture.captureImage(
+                    function (foto) {
+                        var ruta = foto[0].fullPath;
+                        $("#imagen").append("<img src="+ruta+" width='100%'/>");
+                    }
+                    ,function(error){
+                        navigator.notification.alert("Error: " + error.code,null,"captura de error");
+                    }
+                    ,{limit:1});
+                });
+        }
+        ,false);
+    </script>
 </head>
 
 <body>
 <div data-role="page" id="principal" data-theme="b">
 	<div data-role="header">
-    	<p>Encabezado de la aplicación</p>
+    	<p>Acceso a cámara</p>
     </div> 
     <div data-role="content">
-    	<p>Contenido de la aplicación</p>
+        <input type="button" value="Capturar fotografía" id="btnTomarFoto" />
+        <div id="imagen">
+
+        </div>
     </div>
     <div data-role="footer" data-position="fixed">
     	<p>Pie de aplicación</p>
